@@ -8,7 +8,7 @@ class AuthorViews(viewsets.ModelViewSet):
     queryset = AuthorModel.objects.all()
     permission_classes = [AllowAny]
 
-class BlogPostModel(viewsets.ModelViewSet):
+class BlogPostViews(viewsets.ModelViewSet):
     serializer_class = BlogPostSerializer
     queryset = BlogPostModel.objects.all()
     permission_classes = [AllowAny]
