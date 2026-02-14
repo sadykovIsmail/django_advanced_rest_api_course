@@ -6,16 +6,28 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name', 'created_at', 'updated_at']
-        read_only = ['id', 'created_at']
-
-class NotesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Note
-        fields = ['id', 'title', 'content', 'category', 'tags', 'created_at']
-        read_only = ['id', 'created_at']
+        read_only_fields = ['id', 'created_at']
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['id', 'name']
-        read_only = ['id']
+        read_only_fields = ['id']
+
+class NotesSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(
+        source='category.name',
+        read_only=True,
+        default=""
+    )
+    tags_names = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='name',
+        source='tags'
+    )
+
+    class Meta:
+        model = Note
+        fields = ['id', 'title', 'content', 'category', 'category_name', 'tags', 'tags_names', 'created_at']
+        read_only_fields = ['id', 'created_at']
