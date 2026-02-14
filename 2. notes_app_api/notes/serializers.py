@@ -27,10 +27,15 @@ class NotesSerializer(serializers.ModelSerializer):
         source='tags'
     )
 
+    user_name = serializers.CharField(
+        source='user.username',
+        read_only=True,
+    )
+
     class Meta:
         model = Note
-        fields = ['id', 'title', 'content', 'category', 'category_name', 'tags', 'tags_names', 'created_at', 'user']
-        read_only_fields = ['id', 'created_at', 'user']
+        fields = ['id', 'title', 'content', 'category', 'category_name', 'tags', 'tags_names', 'created_at', 'user', 'user_name']
+        read_only_fields = ['id', 'created_at', 'user', 'user_name']
 
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
