@@ -1,0 +1,13 @@
+Week 1:
+
+Convert todo app to PostgreSQL
+
+Dockerize it
+
+Week 2:
+
+Add image upload
+
+Write 10+ API tests
+
+Add GitHub Actions
