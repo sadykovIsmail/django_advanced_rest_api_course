@@ -1,7 +1,7 @@
 from .models import Note, Category
 from rest_framework import serializers
 
-class CategorySerializer(serializers.ModelField):
+class CategorySerializer(serializers.ModelSerializer):
     """Category to front end"""
     class Meta:
         model = Category
