@@ -12,3 +12,6 @@ class TaskViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
