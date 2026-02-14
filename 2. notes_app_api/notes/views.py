@@ -8,7 +8,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """End points of category"""
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    permission_classes = [IsAuthenticated]
 
 class NotesViewSet(viewsets.ModelViewSet):
     """End points of API"""
@@ -23,4 +22,3 @@ class TagsViewSet(viewsets.ModelViewSet):
     """End point of API"""
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
-    permission_classes = [IsAuthenticated]
