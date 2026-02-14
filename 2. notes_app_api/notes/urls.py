@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('notes', NotesViewSet)
+router.register('notes', NotesViewSet, basename='note')
 router.register('categories', CategoryViewSet)
 router.register('tags', TagsViewSet)
 
