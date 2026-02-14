@@ -2,6 +2,8 @@
 
 from django.db import models  #imports models
 from django.core.validators import MinValueValidator, MaxValueValidator #imports validators
+from django.conf import settings
+
 
 class Task(models.Model):
     title = models.CharField(max_length=255) # title in the database with max 255 chars
@@ -15,5 +17,6 @@ class Task(models.Model):
             MaxValueValidator(5)
         ]
     )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
