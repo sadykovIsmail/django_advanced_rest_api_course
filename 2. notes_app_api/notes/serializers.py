@@ -1,4 +1,4 @@
-from .models import Note, Category
+from .models import Note, Category, Tag
 from rest_framework import serializers
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -11,5 +11,11 @@ class CategorySerializer(serializers.ModelSerializer):
 class NotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ['id', 'title', 'content', 'category', 'created_at']
+        fields = ['id', 'title', 'content', 'category', 'tags', 'created_at']
         read_only = ['id', 'created_at']
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name']
+        read_only = ['id']
