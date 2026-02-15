@@ -144,8 +144,3 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
-
-{
-    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MTIxOTg4OSwiaWF0IjoxNzcxMTMzNDg5LCJqdGkiOiJhOTkzNDMwOWZjMTQ0YmEzOTNkMzJhZGRmNjNmMjhkNCIsInVzZXJfaWQiOiIzIn0.PNwuGD4_k0atud21wO2W62y-5-N3hKct7_jWTFENxNY",
-    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcxMTMzNzg5LCJpYXQiOjE3NzExMzM0ODksImp0aSI6Ijk3ZWRkZTQ3NzkzNTRmYjNiOGUzZDExYjgzNjZlZWY4IiwidXNlcl9pZCI6IjMifQ.QyPiD03_H7PeRdRWyKMAkuc5dOhZszCRul93_rEKsRE"
-}
