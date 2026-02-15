@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'notes',
     'rest_framework',
     'rest_framework.authtoken',  # for token authentication
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf-spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.simplejwt.authentication.JWTAuthentication',
     ],
