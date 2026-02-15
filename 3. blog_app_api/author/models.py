@@ -16,5 +16,9 @@ class BlogPostModel(models.Model):
     author = models.ForeignKey(AuthorModel, on_delete=models.CASCADE) # foreing key
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name="posts",
+        )
     def __str__(self):
         return self.title

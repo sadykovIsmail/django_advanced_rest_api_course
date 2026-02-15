@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'author',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -129,11 +130,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':  [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
     ],
-    'DEFAULT_PERMISSION_CLASSES':  [
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+}
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MTIxOTg4OSwiaWF0IjoxNzcxMTMzNDg5LCJqdGkiOiJhOTkzNDMwOWZjMTQ0YmEzOTNkMzJhZGRmNjNmMjhkNCIsInVzZXJfaWQiOiIzIn0.PNwuGD4_k0atud21wO2W62y-5-N3hKct7_jWTFENxNY",
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcxMTMzNzg5LCJpYXQiOjE3NzExMzM0ODksImp0aSI6Ijk3ZWRkZTQ3NzkzNTRmYjNiOGUzZDExYjgzNjZlZWY4IiwidXNlcl9pZCI6IjMifQ.QyPiD03_H7PeRdRWyKMAkuc5dOhZszCRul93_rEKsRE"
 }
