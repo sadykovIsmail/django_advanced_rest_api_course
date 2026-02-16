@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: notes_db
+      POSTGRES_USER: notes_user
+      POSTGRES_PASSWORD: notes_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app:/app
+    ports:
+      - 8000:8000
+    environment:
+      DB_NAME: notes_db
+      DB_USER: notes_user
+      DB_PORT: 5432
+      DB_HOST: db
+      DB_PASS: notes_pass
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+
