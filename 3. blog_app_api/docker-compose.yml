@@ -2,7 +2,11 @@ version: '3.9'
 
 services:
   db:
-    image: postgres:15-alpine
+    image: postgres:16
+    environment:
+      POSTGRES_DB: blog_db
+      POSTGRES_USER: blog_user
+      POSTGRES_PASSWORD: blog_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
@@ -15,11 +19,12 @@ services:
 
   web:
     build: .
+    user: root
     command: >
       sh -c "
-      python manage.py migrate &&
-      python manage.py collecstatic --noinput &&
-      gunicorn blog.wsgi:application --bind 0.0.0.0:8000
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        gunicorn core.wsgi:application --bind 0.0.0.0:8000
       "
     volumes:
       - static_volume:/app/static
@@ -29,6 +34,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      POSTGRES_DB: blog_db
+      POSTGRES_USER: blog_user
+      POSTGRES_PASSWORD: blog_password
 
   nginx:
     image: nginx:alpine
