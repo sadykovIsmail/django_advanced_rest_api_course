@@ -9,7 +9,6 @@ inflection==0.5.1
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 packaging==26.0
-psycopg2==2.9.11
 psycopg2-binary==2.9.11
 PyJWT==2.11.0
 PyYAML==6.0.3
@@ -19,3 +18,5 @@ sqlparse==0.5.5
 typing_extensions==4.15.0
 tzdata==2025.3
 uritemplate==4.2.0
+python-dotenv
+
