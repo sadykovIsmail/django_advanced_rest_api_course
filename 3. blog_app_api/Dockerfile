@@ -1,15 +1,21 @@
-FROM python:3.12
+FROM python:3.12-slim
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 # Set working directory
 WORKDIR /app
 
 # Copy everything from local 'app' folder
-COPY ./app /app
-
 # Copy requirements separately for caching
-COPY requirements.txt /app
+COPY /app/requirements.txt .
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
+COPY app/ .
+
+RUN adduser --disabled-password --no-create-home django-user
+USER django-user
+
+EXPOSE 8000
 # Default command
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "blog.wsgi:application", "--bind", "0.0.0.0:8000"]
