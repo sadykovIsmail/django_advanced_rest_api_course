@@ -2,31 +2,46 @@ version: '3.9'
 
 services:
   db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: blog_db
-      POSTGRES_USER: blog_user
-      POSTGRES_PASSWORD: changeme
-    ports:
-      - "5432:5432"
+    image: postgres:15-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blog_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  app:
+  web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python manage.py collecstatic --noinput &&
+      gunicorn blog.wsgi:application --bind 0.0.0.0:8000
+      "
     volumes:
-      - ./app:/app
-    ports:
-      - "8000:8000"
-    environment:
-      DB_NAME: blog_db
-      DB_USER: blog_user
-      DB_PASSWORD: changeme
-      DB_HOST: db
-      DB_PORT: 5432
+      - static_volume:/app/static
+      - media_volume:/app/media
+    env_file:
+      - .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
