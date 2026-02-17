@@ -2,32 +2,53 @@ version: '3.9'
 
 services:
   db:
-    image: postgres:15
+    image: postgres:16
     environment:
       POSTGRES_DB: notes_db
       POSTGRES_USER: notes_user
       POSTGRES_PASSWORD: notes_pass
-    ports:
-      - "5432:5432"
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready U notes_user -d notes_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "
+        python manage.py migrate &&
+        python manage.py collectstatic --no input &&
+        gunicorn core.wsgi:application --bind 0.0.0.0:8000
+      "
     volumes:
-      - ./app:/app
-    ports:
-      - 8000:8000
-    environment:
-      DB_NAME: notes_db
-      DB_USER: notes_user
-      DB_PORT: 5432
-      DB_HOST: db
-      DB_PASS: notes_pass
-    depends_on:
-      - db
+      - static_volume:/app/static
+      - media_volume:/app/media
 
+    environment:
+      POSTGRES_DB: notes_db
+      POSTGRES_USER: notes_user
+      POSTGRES_PASSWORD: notes_pass
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
 
