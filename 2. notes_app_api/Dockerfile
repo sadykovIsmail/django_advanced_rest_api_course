@@ -23,6 +23,7 @@ COPY app/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY app/ .
 # make user django user
 USER django-user
 
@@ -30,4 +31,4 @@ USER django-user
 EXPOSE 8000
 
 # default command
-CMD ["gunicorn", "core.wsgi:application", "bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
