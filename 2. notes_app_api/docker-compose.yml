@@ -12,17 +12,18 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready -U notes_user -d notes_db"]
+      test: ["CMD-SHELL", "pg_isready -U notes_user -d notes_db"]
       interval: 5s
       timeout: 5s
       retries: 5
+
 
   web:
     build: .
     command: >
       sh -c "
         python manage.py migrate &&
-        python manage.py collectstatic --no input &&
+        python manage.py collectstatic --noinput &&
         gunicorn core.wsgi:application --bind 0.0.0.0:8000
       "
     volumes:
