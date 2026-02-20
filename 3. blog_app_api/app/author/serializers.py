@@ -24,3 +24,9 @@ class BlogPostSerializer(serializers.ModelSerializer):
         model = BlogPostModel
         fields = ['id', 'title', 'content', 'author', 'author_name', 'created_at', 'updated_at', 'user']
         read_only = ['id', 'created_at', 'author', 'author_name', 'user']
+
+class PostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogPostModel
+        fields = ['id', "image"]
+        read_only = ["id"]
