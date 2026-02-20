@@ -31,6 +31,11 @@ class BlogPostViews(viewsets.ModelViewSet):
         # Automatically assign the logged-in user
         serializer.save(user=self.request.user)
 
+    def get_serializer_class(self):
+        if self.action == "upload_image":
+            return PostImageSerializer
+        return self.serializer_class
+
     @action(
         methods=["POST"],
         detail=True,

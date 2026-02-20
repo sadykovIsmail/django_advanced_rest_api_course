@@ -22,7 +22,7 @@ class BlogPostSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = BlogPostModel
-        fields = ['id', 'title', 'content', 'author', 'author_name', 'created_at', 'updated_at', 'user']
+        fields = "__all__"
         read_only = ['id', 'created_at', 'author', 'author_name', 'user']
 
 class PostImageSerializer(serializers.ModelSerializer):
