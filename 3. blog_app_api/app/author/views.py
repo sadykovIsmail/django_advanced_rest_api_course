@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from drf_spectacular.utils import extend_schema, OpenApiTypes
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
@@ -35,6 +35,17 @@ class BlogPostViews(viewsets.ModelViewSet):
             return PostImageSerializer
         return self.serializer_class
 
+    @extend_schema(
+        request={
+            "multipart/form-data": {
+                "type": "object",
+                "properties": {
+                    "image": {"type": "string", "format": "binary"}
+                },
+                "required": ["image"],
+            }
+        }
+    )
     @action(
         methods=["POST"],
         detail=True,
