@@ -2,15 +2,15 @@ from .models import AuthorModel, BlogPostModel
 from rest_framework import serializers
 
 class AuthorSerializer(serializers.ModelSerializer):
+    """Serializer"""
     user_name = serializers.CharField(
         source='user.username',
         read_only=True,
     )
-    """Serializer"""
     class Meta:
         model = AuthorModel
         fields = ['id', 'name', 'email', 'created_at', 'user', 'user_name']
-        read_only = ['id', 'created_at', 'user', 'user_name']
+        read_only_fields = ['id', 'created_at', 'user', 'user_name']
 
 
 
@@ -23,10 +23,10 @@ class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPostModel
         fields = "__all__"
-        read_only = ['id', 'created_at', 'author', 'author_name', 'user']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'author_name', 'user']
 
 class PostImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPostModel
         fields = ['id', "image"]
-        read_only = ["id"]
+        read_only_fields = ["id"]
