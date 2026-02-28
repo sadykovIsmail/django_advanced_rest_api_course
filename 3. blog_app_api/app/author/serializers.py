@@ -10,7 +10,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuthorModel
         fields = ['id', 'name', 'email', 'created_at', 'user', 'user_name']
-        read_only_fields = ['id', 'created_at', 'user', 'user_name']
+        read_only_fields = ['id', 'created_at', 'user']
 
 
 
@@ -23,7 +23,7 @@ class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPostModel
         fields = "__all__"
-        read_only_fields = ['id', 'created_at', 'updated_at', 'author_name', 'user']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'user']
 
 class PostImageSerializer(serializers.ModelSerializer):
     class Meta:
