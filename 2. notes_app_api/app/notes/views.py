@@ -1,7 +1,10 @@
 from .serializers import NotesSerializer, CategorySerializer, TagSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 from .models import Note, Category, Tag
 from drf_spectacular.utils import extend_schema
+from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """End points of category"""
@@ -19,7 +22,7 @@ class NotesViewSet(viewsets.ModelViewSet):
         if self.action == "upload-image":
            return NotesSerializer
         return self.serializer_class
-    
+
     # extend drf schema
     @extend_schema(
         request={
@@ -34,8 +37,21 @@ class NotesViewSet(viewsets.ModelViewSet):
     )
 
 
+    @action(
+        methods=["POST"],
+        detail=True,
+        url_path="upload-image",
+        parser_classes=[MultiPartParser, FormParser],
+    )
 
+    def image_upload(self, request, pk=None):
+        note = self.get_object()
+        serializer = self.get_serializer(note, data=request.data)
 
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TagsViewSet(viewsets.ModelViewSet):
     """End point of API"""
