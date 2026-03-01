@@ -1,5 +1,5 @@
 #install python
-FROM python:3.12
+FROM --platform=linux/amd64 python:3.12
 
 # tells to python don't write pyc codes like cache which we don't need
 ENV PYTHONDONTWRITEBYTECODE=1
