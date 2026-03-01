@@ -1,5 +1,5 @@
 #install python
-FROM python:3.12
+FROM python:3.12-slim
 
 # tells to python don't write pyc codes like cache which we don't need
 ENV PYTHONDONTWRITEBYTECODE=1

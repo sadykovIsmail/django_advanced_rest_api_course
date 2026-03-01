@@ -34,7 +34,7 @@ class NotesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ['id', 'title', 'content', 'category', 'category_name', 'tags', 'tags_names', 'created_at', 'user', 'user_name']
+        fields = "__all__"
         read_only_fields = ['id', 'created_at', 'user', 'user_name']
 
     def create(self, validated_data):
@@ -44,6 +44,6 @@ class NotesSerializer(serializers.ModelSerializer):
 class ImageUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ["id", "upload-image"]
-        read_only_fields = ["id"]   
+        fields = ["id", "image"]
+        read_only_fields = ["id"]
 
