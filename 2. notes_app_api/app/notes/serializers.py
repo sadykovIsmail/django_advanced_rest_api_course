@@ -40,3 +40,10 @@ class NotesSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
+
+
+class NoteImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = ['id', 'image']
+        read_only_fields = ['id']
