@@ -13,6 +13,16 @@ class NotesViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()
     def get_queryset(self):
         return Note.objects.filter(user=self.request.user)
+    # give the proper serializer
+    def get_serializer_class(self):
+        if self.action == "upload-image":
+           return NotesSerializer
+        return self.serializer_class
+
+    
+
+
+
 
 class TagsViewSet(viewsets.ModelViewSet):
     """End point of API"""
