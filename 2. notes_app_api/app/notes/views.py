@@ -1,4 +1,4 @@
-from .serializers import NotesSerializer, CategorySerializer, TagSerializer
+from .serializers import NotesSerializer, CategorySerializer, TagSerializer, ImageUploadSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Note, Category, Tag
@@ -17,10 +17,15 @@ class NotesViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()
     def get_queryset(self):
         return Note.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        # Automatically assign the logged-in user
+        serializer.save(user=self.request.user)
+
     # give the proper serializer
     def get_serializer_class(self):
         if self.action == "upload-image":
-           return NotesSerializer
+           return ImageUploadSerializer
         return self.serializer_class
 
     # extend drf schema
@@ -46,7 +51,7 @@ class NotesViewSet(viewsets.ModelViewSet):
 
     def image_upload(self, request, pk=None):
         note = self.get_object()
-        serializer = self.get_serializer(note, data=request.data)
+        serializer = self.get_serializer(note, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
