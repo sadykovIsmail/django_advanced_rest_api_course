@@ -1,6 +1,7 @@
 from .serializers import NotesSerializer, CategorySerializer, TagSerializer
 from rest_framework import viewsets
 from .models import Note, Category, Tag
+from drf_spectacular.utils import extend_schema
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """End points of category"""
@@ -18,8 +19,20 @@ class NotesViewSet(viewsets.ModelViewSet):
         if self.action == "upload-image":
            return NotesSerializer
         return self.serializer_class
-
     
+    # extend drf schema
+    @extend_schema(
+        request={
+            "multipart/form-data": {
+                "type": "object",
+                "properties": {
+                    "image": {"type": "string", "format": "binary"}
+                },
+                "required": ["image"],
+            }
+        }
+    )
+
 
 
 
