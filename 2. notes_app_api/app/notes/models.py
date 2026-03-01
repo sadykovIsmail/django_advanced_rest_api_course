@@ -18,6 +18,7 @@ class Note(models.Model):
     )
     tags = models.ManyToManyField('Tag')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, blank=True, upload_to="notes/")
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
