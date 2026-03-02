@@ -26,23 +26,21 @@ def create_post(user, author, title="Test Post", content="Test content"):
     )
 
 
-# ── URL names ────────────────────────────────────────────────────────
-AUTHOR_LIST_URL = reverse("authormodel-list")
-POST_LIST_URL   = reverse("blogpostmodel-list")
-
-
 # ════════════════════════════════════════════════════════════════════
 # AUTH TESTS
 # ════════════════════════════════════════════════════════════════════
 
 class AuthTests(TestCase):
 
+    def setUp(self):
+        self.client = APIClient()
+        self.author_list_url = reverse("authormodel-list")
+        self.post_list_url   = reverse("blogpostmodel-list")
+
     def test_author_endpoint_requires_login(self):
-        client = APIClient()   # no user attached
-        res = client.get(AUTHOR_LIST_URL)
+        res = self.client.get(self.author_list_url)
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_posts_endpoint_requires_login(self):
-        client = APIClient()
-        res = client.get(POST_LIST_URL)
+        res = self.client.get(self.post_list_url)
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
