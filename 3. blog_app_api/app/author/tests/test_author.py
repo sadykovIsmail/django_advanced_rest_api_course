@@ -5,3 +5,8 @@ from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.test import APIClient
+User = get_user_model()
+
+def create_user(username, password):
+    # for creating reusable user
+    return User.objects.create(username=username, password=password)
