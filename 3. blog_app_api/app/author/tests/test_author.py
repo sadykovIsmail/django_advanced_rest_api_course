@@ -24,6 +24,11 @@ class test_author_create(TestCase):
         self.user = create_user()
         self.client.force_authenticate(user=self.user)
         self.author_list_link = reverse("authormodel-list")
+    def test_author_login_returns_only_own(self):
+        other_user = create_user("OtherUser", "Otheruser122")
+        create_author(user=other_user, name="OtherUser")
+        create_author(user=self.user, name="MyAuthor")
+
 
 
 
