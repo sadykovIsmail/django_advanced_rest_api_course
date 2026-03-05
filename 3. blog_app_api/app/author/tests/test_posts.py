@@ -16,3 +16,15 @@ def create_user(usernane, password):
 def create_author(user, name="Example", email="email@example.com"):
     return AuthorModel.objects.create(user=user, name=name, email=email)
 
+
+class test_post_create(TestCase):
+    # check if user assigning automatically from token
+    def setUp(self):
+        self.client = APIClient()
+        self.user = create_user(usernane="My user", password="123example")
+        self.client.force_authenticate(user=self.user)
+        self.author = create_author(self.user, "My Author", "myauthor@example.com")
+        self.post_link = reverse("blogpostmodel-list")
+
+    
+    payload = {}
