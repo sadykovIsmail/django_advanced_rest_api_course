@@ -9,4 +9,14 @@ from ..models import Tag
 
 User = get_user_model()
 
+def create_user(username, password):
+    return User.objects.create(username=username, password=password)
+
+class test_tags(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = create_user("My user", "password123d")
+        self.client.force_authenticate(user=self.user)
+        self.tags_endnpoint = reverse("tag-list")
+        
 
