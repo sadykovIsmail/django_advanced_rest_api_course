@@ -12,6 +12,9 @@ User = get_user_model()
 def create_user(username="testuser", password="testpass123"):
     return User.objects.create(username=username, password=password)
 
+def create_category(name, user):
+    return Category.objects.create(name=name, user=user)
+
 class CategoryTest(TestCase):
     def setUp(self):
         self.client = APIClient()
@@ -23,3 +26,5 @@ class CategoryTest(TestCase):
         payload = {"name": "example"}
         res = self.client.post(self.category_endpoint, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+
