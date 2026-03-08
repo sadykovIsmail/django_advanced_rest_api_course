@@ -20,3 +20,15 @@ def create_tag(user, name):
 
 def create_note(title, content, user, tags, category):
     return Note.objects.create(title=title, content=content, user=user, tags=tags, category=category)
+
+
+class test_note(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = create_user("My User", "passwords123")
+        self.client.force_authenticate(user=self.user)
+        self.tag_endpoint_link = reverse("tag-list")
+        self.category_endpoint_link = reverse("category-list")
+        self.note_endpoint_link = reverse("note-list")
+
+    
