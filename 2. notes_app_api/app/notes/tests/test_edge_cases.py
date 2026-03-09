@@ -46,7 +46,7 @@ class TestNoteEdgeCases(TestCase):
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_note_with_max_length_title_succeeds(self):
-        payload = {"title": "a" * 255, "content": "hello", "category": self.category.id}
+        payload = {"title": "a" * 255, "content": "hello", "category": self.category.id, "tags": [self.tag.id]}
         res = self.client.post(NOTE_LIST_LINK, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
@@ -62,7 +62,7 @@ class TestNoteEdgeCases(TestCase):
 
     def test_create_note_with_blank_content_succeeds(self):
         # content has blank=True so empty string is valid
-        payload = {"title": "No Content Note", "content": "", "category": self.category.id}
+        payload = {"title": "No Content Note", "content": "", "category": self.category.id, "tags": [self.tag.id]}
         res = self.client.post(NOTE_LIST_LINK, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
@@ -77,7 +77,7 @@ class TestNoteEdgeCases(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
     def test_user_assigned_from_token_not_payload(self):
-        payload = {"title": "Token Test", "content": "hello", "category": self.category.id}
+        payload = {"title": "Token Test", "content": "hello", "category": self.category.id, "tags": [self.tag.id]}
         res = self.client.post(NOTE_LIST_LINK, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         note = Note.objects.get(id=res.data["id"])
@@ -102,7 +102,7 @@ class TestNoteEdgeCases(TestCase):
     def test_full_update_note(self):
         note = create_note(self.user, self.category, "Original Title", "Original content")
         url = reverse("note-detail", args=[note.id])
-        payload = {"title": "New Title", "content": "New content", "category": self.category.id}
+        payload = {"title": "New Title", "content": "New content", "category": self.category.id, "tags": [self.tag.id]}
         res = self.client.put(url, payload)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         note.refresh_from_db()
